@@ -22,5 +22,9 @@ def cmd_list():
     results = cur.fetchone()
     return render_template('cmd_list.html', words=results)
 
+@app.rout('/message_board')
+def message_board():
+    return render_template('message_board.html')
+
 if __name__=='__main__':
     app.run(host=HOST, port=PORT, debug=DEBUG)
