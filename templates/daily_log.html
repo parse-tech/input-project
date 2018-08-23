@@ -1,0 +1,17 @@
+{% extends 'parts/base.html' %}
+{% from 'macros.html' import render_field %}
+
+{% block content %}
+<h1>New Part Order</h1>
+<div class="container">
+    <div class="add-form">
+        <form action="" method=post enctype=multipart/form-data>
+            {{ form.hidden_tag() }}
+            {% for field in form %}
+                {{ render_field(field) }}
+            {% endfor %}
+            <input type=submit value=Upload />
+        </form>
+    </div>
+</div>
+{% endblock %}
