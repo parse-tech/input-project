@@ -16,7 +16,7 @@ def daily_post(content):
     conn = db_connect.connect_to_db_site_dailiy_log()
     cur = conn.cursor()
     sql = "INSERT INTO  daily_log (content, submit_time)" \
-          " VALUES (" + str(content) + ", NOW())"
+          " VALUES (" + content + ", NOW())"
     cur.execute(sql)
     conn.commit()
     return True

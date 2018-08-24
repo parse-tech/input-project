@@ -1,4 +1,4 @@
-{% extends 'parts/base.html' %}
+{% extends 'base.html' %}
 {% from 'macros.html' import render_field %}
 
 {% block content %}
@@ -10,7 +10,7 @@
             {% for field in form %}
                 {{ render_field(field) }}
             {% endfor %}
-            <input type=submit value=Upload />
+            <input type=submit value=Submit />
         </form>
     </div>
 </div>
