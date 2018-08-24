@@ -5,13 +5,11 @@ import board_blog_forms
 import db_actions
 
 app = Flask(__name__)
+app.secret_key = 'nklfAEJiku0*()&ijlkdnlkmklLKHn..4lk4'
 
 DEBUG = True
 PORT = 8086
 HOST = '0.0.0.0'
-
-conn = db_connect.connect_to_db_cli()
-cur = conn.cursor()
 
 @app.route('/')
 def display():
@@ -20,6 +18,8 @@ def display():
 
 @app.route('/cmd_list')
 def cmd_list():
+    conn = db_connect.connect_to_db_cli()
+    cur = conn.cursor()
     cur.execute('SELECT * FROM cmd')
     results = cur.fetchone()
     return render_template('cmd_list.html', words=results)
@@ -33,8 +33,8 @@ def daily_log():
     form = board_blog_forms.Daily_Log_Form()
     if form.validate_on_submit():
         if db_actions.daily_post(form.post):
-            return redirect(url_for('daily_log', form=form))
-    return render_template('daily_log.html')
+            return redirect(url_for('daily_log'))
+    return render_template('daily_log.html', form=form)
 
 '''
 @web_app.route('/parts/new_order', methods=['GET', 'POST'])
