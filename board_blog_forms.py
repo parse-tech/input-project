@@ -5,7 +5,10 @@ from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
 from wtforms.fields.html5 import DateField
 
 class Daily_Log_Form(Form):
-    post = TextAreaField(validators=[DataRequired()])
+    post = TextAreaField("Post", validators=[DataRequired()])
+    
+class Test_Form(Form):
+    post = TextAreaField("Post", validators=[DataRequired()])
 
 class Part_Order_Form(Form):
     employee = SelectField("Employee", coerce=int)

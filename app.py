@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect
+from flask import Flask, render_template, redirect, url_for
 import db_connect
 import pymysql
 import board_blog_forms
@@ -11,10 +11,12 @@ DEBUG = True
 PORT = 8086
 HOST = '0.0.0.0'
 
-@app.route('/')
+@app.route('/', methods=("GET", "POST"))
 def display():
-
-    return render_template('base.html')
+    form = board_blog_forms.Test_Form()
+    if form.validate_on_submit():
+        db_actions.test_post(form.post)
+    return render_template('base.html', form=form)
 
 @app.route('/cmd_list')
 def cmd_list():
@@ -32,8 +34,8 @@ def message_board():
 def daily_log():
     form = board_blog_forms.Daily_Log_Form()
     if form.validate_on_submit():
-        if db_actions.daily_post(form.post):
-            return redirect(url_for('daily_log'))
+        db_actions.daily_post(form.post.data)
+        return redirect(url_for('daily_log'))
     return render_template('daily_log.html', form=form)
 
 '''
