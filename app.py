@@ -18,13 +18,19 @@ def display():
         db_actions.test_post(form.post)
     return render_template('base.html', form=form)
 
-@app.route('/cmd_list')
+@app.route('/cli_information')
 def cmd_list():
-    conn = db_connect.connect_to_db_cli()
-    cur = conn.cursor()
-    cur.execute('SELECT * FROM cmd')
-    results = cur.fetchone()
-    return render_template('cmd_list.html', words=results)
+#    conn = db_connect.connect_to_db_cli()
+#    cur = conn.cursor()
+#    cur.execute('SELECT * FROM cmd')
+#    results = cur.fetchone()
+    form = board_blog_forms.New_CLI_Form()
+    form.type.choices = [('', 'Select Type')] + list(db_actions.get_all_cli_types())
+    form.category.choices = [('', 'Select Category')] + list(db_actions.get_all_cli_categories())
+    if form.validate_on_submit():
+        db_actions.create_new_cli_entry(form.command.data, form.action.data, form.type.data, form.category.data)
+        return redirect(url_for('cli_information'))
+    return render_template('cli_information.html', form=form, data=db_actions.get_all_cli_entries())
 
 @app.route('/message_board')
 def message_board():
@@ -36,39 +42,7 @@ def daily_log():
     if form.validate_on_submit():
         db_actions.daily_post(form.post.data)
         return redirect(url_for('daily_log'))
-    return render_template('daily_log.html', form=form)
-
-'''
-@web_app.route('/parts/new_order', methods=['GET', 'POST'])
-def new_part_order():
-    form = part_forms.Part_Order_Form()
-    form.employee.choices = [('0', 'Employee')] + list(app.get_all_employee_names())
-    form.p_client.choices = [('0', 'Select Client')] + list(app.get_all_clients())
-    form.part_id.choices = [('0', 'Select Part')] + list(part_order_app.get_all_parts_simple())
-    form.p_retailer.choices = [('0', 'Select Retailer')] + list(app.get_all_retailers())
-    form.p_store.choices = [('0', 'Select Store')] + list(app.get_all_stores())
-    if form.validate_on_submit():
-        if part_order_app.new_part_order(form.employee.data,
-                                         form.p_client.data,
-                                         form.part_id.data,
-                                         form.p_store.data,
-                                         form.order_date.data):
-            return redirect(url_for('new_part_order'))
-    return render_template('parts/new_part_order.html', time=datetime.datetime.now(), form=form)
-    
-    
-    def new_part_order(ordered_by, client, part_id, store_id, order_date):
-    if verify_new_part_order(part_id, store_id):
-        sql = "INSERT INTO parts_orders (ordered_by, client, part_id, store_id, order_date)" \
-            " VALUES (" + str(ordered_by) + ", " + str(client) + ", " + "'" + str(part_id) + "'," \
-            " '" + str(store_id) + "', '" + date.strftime(order_date, '%Y-%m-%d') + "')"
-        cur.execute(sql)
-        conn.commit()
-        write_to_json('order')
-        return True
-    else:
-        return False
-'''
+    return render_template('daily_log.html', form=form, all_posts = db_actions.all_daily_posts())
 
 if __name__=='__main__':
     app.run(host=HOST, port=PORT, debug=DEBUG)

@@ -7,8 +7,11 @@ from wtforms.fields.html5 import DateField
 class Daily_Log_Form(Form):
     post = TextAreaField("Post", validators=[DataRequired()])
     
-class Test_Form(Form):
-    post = TextAreaField("Post", validators=[DataRequired()])
+class New_CLI_Form(Form):
+    command = StringField("Command", validators=[DataRequired()])
+    action = StringField("Action", validators=[DataRequired()])
+    type = SelectField("Type", coerce=int)
+    category = SelectField("Category", coerce=int)
 
 class Part_Order_Form(Form):
     employee = SelectField("Employee", coerce=int)

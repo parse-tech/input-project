@@ -2,7 +2,7 @@
 {% from 'macros.html' import render_field %}
 
 {% block content %}
-<h1>New Part Order</h1>
+<h1>Daily Log</h1>
 <div class="container">
     <div class="add-form">
         <form action="" method=post enctype=multipart/form-data>
@@ -10,6 +10,14 @@
 		{{ form.csrf_token }}
     		<input type=submit value=Submit />
         </form>
+    </div>
+    <div class="all-posts">
+        <div class="one-post">
+            {% for p in all_posts %}
+            <p>{{ p[2] }}</p>
+            <p>{{ p[1] }}</p>
+            {% endfor %}
+        </div>
     </div>
 </div>
 {% endblock %}
