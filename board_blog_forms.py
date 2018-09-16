@@ -13,6 +13,14 @@ class New_CLI_Form(Form):
     type = SelectField("Type", coerce=int)
     category = SelectField("Category", coerce=int)
 
+class New_Blog_Post_Form(Form):
+    title = StringField("TITLE", validators=[DataRequired()])
+    post = TextAreaField("POST", validators=[DataRequired()])
+
+class New_Message_Board_Post_Form(Form):
+    post = TextAreaField("Message", validators=[DataRequired])
+
+
 class Part_Order_Form(Form):
     employee = SelectField("Employee", coerce=int)
     p_client = SelectField("Client", coerce=int)
