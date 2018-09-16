@@ -50,12 +50,12 @@ def daily_log():
         db_actions.daily_post(form.post.data)
         return redirect(url_for('daily_log'))
     return render_template('daily_log.html', form=form, all_posts = db_actions.all_daily_posts())
-
+'''
 @app.rout('/message_board', methods=['GET', 'POST'])
 def message_board():
     form = board_blog_forms.New_Message_Board_Post_Form()
     if form.validate_on_submit():
         db_actions.
-
+'''
 if __name__=='__main__':
     app.run(host=HOST, port=PORT, debug=DEBUG)
