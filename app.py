@@ -17,7 +17,7 @@ def display():
 #    form = board_blog_forms.Test_Form()
 #    if form.validate_on_submit():
 #        db_actions.test_post(form.post)
-    return render_template('base.html', form=form)
+    return render_template('base.html')
 
 @app.route('/cli_information')
 def cmd_list():
