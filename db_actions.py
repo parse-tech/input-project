@@ -60,3 +60,41 @@ def create_new_cli_entry(command, action, type, category):
     cur_cli.execute(sql)
     conn_cli.commit()
     return True
+
+def get_all_blog_posts():
+    cur_site.execute("SELECT * FROM blog")
+    return cur_site.fetchall()
+
+def get_specific_blog_post(post):
+    cur_site.execute("SELECT * FROM blog WHERE post_id=" + str(post))
+    return cur_site.fetchall()
+
+# When create message board site
+#def get_message_board_posts():
+#    cur_site.execute("SELECT * FROM ")
+
+def create_blog_post(title, content):
+    cur_site.execute("INSERT INTO blog (title, content, submit_time) VALUES ('" + title + "', '" + content + "', NOW())")
+    cur_site.commit()
+    return True
+
+def increment_tag_count(hashtag):
+    cur_site.execute("SELECT count FROM hashtags WHERE tag='" + hashtag + "'")
+    tag_count = cur_site.fetchone()
+    tag_count[0]+=1
+    cur_site.execute("INSERT INTO hashtags (count) VALUES (" + str(tag_count) + ") WHERE tag='" + hashtag + "'")
+    cur_site.commit()
+    return True
+
+# Returns True there are any new hashtags and False if there are no new hashtags
+def add_new_tag(hashtags):
+    new_tag=False
+    for tag in hashtags:
+        cur_site.execute("SELECT * FROM hashtags WHERE tag='" + tag + "'")
+        if cur_site.fetchone():
+            increment_tag_count(tag)
+            new_tag=True
+        else:
+            cur_site.execute("INSERT INTO hashtags (tag, count) VALUES ('" + str(hashtag) + "', 1)")
+            cur_site.commit()
+    return new_tag
