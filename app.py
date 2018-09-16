@@ -14,9 +14,9 @@ HOST = '0.0.0.0'
 
 @app.route('/', methods=("GET", "POST"))
 def display():
-    form = board_blog_forms.Test_Form()
-    if form.validate_on_submit():
-        db_actions.test_post(form.post)
+#    form = board_blog_forms.Test_Form()
+#    if form.validate_on_submit():
+#        db_actions.test_post(form.post)
     return render_template('base.html', form=form)
 
 @app.route('/cli_information')
