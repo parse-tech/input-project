@@ -33,7 +33,7 @@ def cmd_list():
         return redirect(url_for('cli_information'))
     return render_template('cli_information.html', form=form, data=db_actions.get_all_cli_entries())
 
-@app.route('/blog')
+@app.route('/blog', methods=['GET', 'POST'])
 def blog():
     form = board_blog_forms.New_Blog_Post_Form()
     if form.validate_on_submit():

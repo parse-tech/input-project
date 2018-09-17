@@ -75,15 +75,17 @@ def get_specific_blog_post(post):
 
 def create_blog_post(title, content):
     cur_site.execute("INSERT INTO blog (title, content, submit_time) VALUES ('" + title + "', '" + content + "', NOW())")
-    cur_site.commit()
+    conn_site.commit()
     return True
 
 def increment_tag_count(hashtag):
-    cur_site.execute("SELECT count FROM hashtags WHERE tag='" + hashtag + "'")
+    cur_site.execute("SELECT count FROM hashtags WHERE tag LIKE '" + hashtag + "'")
     tag_count = cur_site.fetchone()
-    tag_count[0]+=1
-    cur_site.execute("INSERT INTO hashtags (count) VALUES (" + str(tag_count) + ") WHERE tag='" + hashtag + "'")
-    cur_site.commit()
+    #tag_count[0]+=1
+    count = int(tag_count[0])
+    count+=1
+    cur_site.execute("UPDATE hashtags SET count = " + str(count) + " WHERE tag LIKE '" + hashtag + "'")
+    conn_site.commit()
     return True
 
 # Returns True there are any new hashtags and False if there are no new hashtags
@@ -95,6 +97,6 @@ def add_new_tag(hashtags):
             increment_tag_count(tag)
             new_tag=True
         else:
-            cur_site.execute("INSERT INTO hashtags (tag, count) VALUES ('" + str(hashtag) + "', 1)")
-            cur_site.commit()
+            cur_site.execute("INSERT INTO hashtags (tag, count) VALUES ('" + str(tag) + "', 1)")
+            conn_site.commit()
     return new_tag
