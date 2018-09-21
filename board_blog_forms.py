@@ -20,6 +20,9 @@ class New_Blog_Post_Form(Form):
 class New_Message_Board_Post_Form(Form):
     post = TextAreaField("Message", validators=[DataRequired])
 
+class Search_Log_Form(Form):
+    word = TextAreaField("Search word/phrase", validators=[DataRequired])
+
 
 class Part_Order_Form(Form):
     employee = SelectField("Employee", coerce=int)

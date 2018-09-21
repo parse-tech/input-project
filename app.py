@@ -46,10 +46,17 @@ def blog():
 @app.route('/daily_log', methods=['GET', 'POST'])
 def daily_log():
     form = board_blog_forms.Daily_Log_Form()
+    search_form = board_blog_forms.Search_Log_Form()
     if form.validate_on_submit():
         db_actions.daily_post(form.post.data)
         return redirect(url_for('daily_log'))
-    return render_template('daily_log.html', form=form, all_posts = db_actions.all_daily_posts())
+    if search_form.validate_on_submit():
+        return render_template('daily_log.html', form=form, search_form=search_form,
+                               searched_posts=db_actions.get_daily_log_by_word(search_form.word.data),
+                               searched=True)
+    return render_template('daily_log.html', form=form, all_posts=db_actions.all_daily_posts(),
+                           search_form=search_form,
+                           searched=False)
 '''
 @app.rout('/message_board', methods=['GET', 'POST'])
 def message_board():

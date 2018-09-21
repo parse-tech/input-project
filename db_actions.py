@@ -25,7 +25,7 @@ def daily_post(content):
     sql = "INSERT INTO  daily_log (content, post_date)" \
           " VALUES ('" + re.escape(content) + "', NOW())"
     cur_site.execute(sql)
-    cur_site.commit()
+    conn_site.commit()
     return True
 
 def all_daily_posts():
@@ -100,3 +100,7 @@ def add_new_tag(hashtags):
             cur_site.execute("INSERT INTO hashtags (tag, count) VALUES ('" + str(tag) + "', 1)")
             conn_site.commit()
     return new_tag
+
+def get_daily_log_by_word(word):
+    cur_site.execute("SELECT * FROM daily_log WHERE MATCH (content) AGAINST ('" + str(word) + "')")
+    return cur_site.fetchall()
